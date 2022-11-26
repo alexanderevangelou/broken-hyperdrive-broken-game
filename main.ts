@@ -10,6 +10,7 @@ namespace SpriteKind {
     export const HistoryMultibleEnemies = SpriteKind.create()
     export const HistoryNewPlanet = SpriteKind.create()
     export const HistoryEnemy2 = SpriteKind.create()
+    export const EnemyProjectile = SpriteKind.create()
 }
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function (sprite, otherSprite) {
     otherSprite.destroy(effects.fire, 100)
@@ -45,6 +46,10 @@ sprites.onOverlap(SpriteKind.Heart, SpriteKind.BlackHole, function (sprite, othe
     scaling.scaleByPixels(sprite, 10, ScaleDirection.Horizontally, ScaleAnchor.Middle)
     scaling.scaleByPixels(sprite, -10, ScaleDirection.Vertically, ScaleAnchor.Middle)
     sprite.destroy(effects.fire, 100)
+})
+sprites.onOverlap(SpriteKind.Projectile, SpriteKind.HistoryEnemy2, function (sprite, otherSprite) {
+    music.zapped.play()
+    sprite.destroy(effects.disintegrate, 100)
 })
 function menu () {
     is_menu_on = true
@@ -1084,6 +1089,10 @@ sprites.onOverlap(SpriteKind.HistoryEscape, SpriteKind.HistoryMultibleEnemies, f
     sprite.startEffect(effects.fire)
     sprite.destroy(effects.disintegrate, 100)
 })
+sprites.onOverlap(SpriteKind.EnemyProjectile, SpriteKind.HistoryNewPlanet, function (sprite, otherSprite) {
+    is_earth_attacking = false
+    sprite.destroy(effects.fire, 100)
+})
 function History () {
     list = [
     img`
@@ -1394,11 +1403,11 @@ function History () {
         History_Escape_Happening = true
         finaly_at_earth = true
     })
-    timer.after(12000, function () {
+    timer.after(14000, function () {
         mySprite6.sayText("laser cannons ready!", 2000, true)
         History_Escape_Happening = false
     })
-    timer.after(14000, function () {
+    timer.after(16000, function () {
         mySprite3 = sprites.create(img`
             . . . . . . . . c c c c . . . . 
             . . . . c c c c c c c c c . . . 
@@ -1430,7 +1439,7 @@ function History () {
         projectile3.setKind(SpriteKind.Projectile)
         projectile3.follow(mySprite3)
     })
-    timer.after(16000, function () {
+    timer.after(18000, function () {
         mysprite7 = sprites.create(img`
             ....cfffffffffffffcc...
             .....cc........ccc19c6.
@@ -1451,8 +1460,56 @@ function History () {
             `, SpriteKind.HistoryEnemy2)
         mysprite7.setPosition(151, 54)
     })
-    timer.after(18000, function () {
-    	
+    timer.after(19000, function () {
+        mysprite7.sayText("!!@#$%%&^*& $%@#$%# #@^#%$# $%%^@%^$)", 1000, true)
+    })
+    timer.after(20000, function () {
+        mySprite6.sayText("what does that mean?", 1000, true)
+    })
+    timer.after(21000, function () {
+        is_alein_attacking = true
+    })
+    timer.after(22000, function () {
+        is_earth_attacking = true
+    })
+    timer.after(23000, function () {
+        mySprite6.sayText("Oh no laser cannons are gone!", 1000, true)
+        is_alein_attacking = false
+        mysprite7.sayText("!@#@#$#@ @$^*($##@ $$%%#$", 1000, true)
+    })
+    timer.after(24000, function () {
+        mysprite7.destroy(effects.coolRadial, 2000)
+    })
+    timer.after(26000, function () {
+        mySprite8 = sprites.create(img`
+            . . . . . . . 2 2 4 5 7 9 6 8 c 
+            . . . . . . 2 4 4 2 . . . . . . 
+            . . . . . 2 4 5 5 4 2 . . . . . 
+            . . . . 2 4 5 7 7 5 4 2 . . . . 
+            . . . 2 4 5 7 9 9 7 5 4 2 . . . 
+            . . 2 4 5 7 9 6 6 9 7 5 4 2 . . 
+            . 2 4 5 7 9 6 8 8 6 9 7 5 4 2 . 
+            2 4 5 7 9 6 8 c c 8 6 9 7 5 4 2 
+            2 4 5 7 9 6 8 c c 8 6 9 7 5 4 2 
+            . 2 4 5 7 9 6 8 8 6 9 7 5 4 2 . 
+            . . 2 4 5 7 9 6 6 9 7 5 4 2 . . 
+            . . . 2 4 5 7 9 9 7 5 4 2 . . . 
+            . . . . 2 4 5 7 7 5 4 2 . . . . 
+            . . . . . 2 4 5 5 4 2 . . . . . 
+            . . . . . . 2 4 4 2 . . . . . . 
+            . . . . . . . 2 2 4 5 7 9 6 8 c 
+            `, SpriteKind.Player)
+        mySprite.setPosition(104, 59)
+        mySprite6.sayText("Ship dystroy those astroids so we don't get hit", 5000, true)
+    })
+    timer.after(31000, function () {
+        mySprite6.sayText("Remember when mars got dystroyed?", 5000, true)
+    })
+    timer.after(33000, function () {
+        mySprite8.setVelocity(100, 0)
+    })
+    timer.after(36000, function () {
+        on_start()
     })
 }
 sprites.onOverlap(SpriteKind.Projectile, SpriteKind.Enemy, function (sprite, otherSprite) {
@@ -1508,9 +1565,14 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.BlackHole, function (sprite, oth
     game.showLongText("your broken hyperspace machine made a SuperMasive black hole that made you and everything around you go into it. you were never to be seen again", DialogLayout.Center)
     game.over(false, effects.dissolve)
 })
+let projectile6: Sprite = null
 let muSprite5: Sprite = null
 let mySprite4: Sprite = null
 let hearts: Sprite = null
+let projectile5: Sprite = null
+let projectile4: Sprite = null
+let mySprite8: Sprite = null
+let is_alein_attacking = false
 let mysprite7: Sprite = null
 let projectile3: Sprite = null
 let finaly_at_earth = false
@@ -1518,6 +1580,7 @@ let mySprite6: Sprite = null
 let mySprite3: Sprite = null
 let mySprite2: Sprite = null
 let list: Image[] = []
+let is_earth_attacking = false
 let projectile: Sprite = null
 let projectile2: Sprite = null
 let statusbar: StatusBarSprite = null
@@ -1622,6 +1685,52 @@ forever(function () {
             `)
         game.setDialogTextColor(7)
         game.showLongText("you dystroyed those astroids and saved Earth", DialogLayout.Center)
+    }
+})
+game.onUpdateInterval(1000, function () {
+    if (is_alein_attacking == true) {
+        projectile4 = sprites.createProjectileFromSprite(img`
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . 9 9 . . . . . . . 
+            . . . . . . 6 6 6 6 . . . . . . 
+            . . . . . 9 6 8 8 6 9 . . . . . 
+            . . . . . 9 6 8 8 6 9 . . . . . 
+            . . . . . . 6 6 6 6 . . . . . . 
+            . . . . . . . 9 9 . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            `, mysprite7, 0, 50)
+        projectile4.setKind(SpriteKind.EnemyProjectile)
+        projectile5 = sprites.createProjectileFromSprite(img`
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . 9 9 . . . . . . . 
+            . . . . . . 6 6 6 6 . . . . . . 
+            . . . . . 9 6 8 8 6 9 . . . . . 
+            . . . . . 9 6 8 8 6 9 . . . . . 
+            . . . . . . 6 6 6 6 . . . . . . 
+            . . . . . . . 9 9 . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            `, mysprite7, 0, -50)
+        projectile5.setKind(SpriteKind.EnemyProjectile)
+        timer.after(2000, function () {
+            projectile4.follow(mySprite6, 100)
+            projectile5.follow(mySprite6, 100)
+        })
     }
 })
 game.onUpdateInterval(5000, function () {
@@ -1836,6 +1945,20 @@ game.onUpdateInterval(500, function () {
         }
     } else {
     	
+    }
+})
+game.onUpdateInterval(500, function () {
+    if (is_earth_attacking == true) {
+        projectile6 = sprites.createProjectileFromSprite(img`
+            . . 2 2 . . 
+            . 2 4 4 2 . 
+            2 4 5 5 4 2 
+            2 4 5 5 4 2 
+            . 2 4 4 2 . 
+            . . 2 2 . . 
+            `, mySprite6, 0, 0)
+        projectile6.setKind(SpriteKind.Projectile)
+        projectile6.follow(mysprite7, 100)
     }
 })
 forever(function () {
