@@ -1,11 +1,14 @@
 {
-    "name": "broken hyperdrive broken game",
+    "name": "broken hyperdrive",
     "description": "",
     "dependencies": {
         "device": "*",
         "pxt-status-bar": "github:jwunderl/pxt-status-bar#v0.4.1",
         "sprite-scaling": "*",
-        "Timers": "github:microsoft/arcade-timers#v1.1.0"
+        "Timers": "github:microsoft/arcade-timers#v1.1.0",
+        "settings-blocks": "github:microsoft/pxt-settings-blocks#v1.0.0",
+        "Sprite Grid": "github:microsoft/arcade-grid#v1.3.0",
+        "arcade-story": "github:microsoft/arcade-storytelling#v1.0.3"
     },
     "files": [
         "main.blocks",
@@ -17,7 +20,7 @@
         "test.ts"
     ],
     "targetVersions": {
-        "target": "1.10.36",
+        "target": "1.11.37",
         "targetId": "arcade"
     },
     "supportedTargets": [
