@@ -11,6 +11,9 @@ namespace SpriteKind {
     export const HistoryNewPlanet = SpriteKind.create()
     export const HistoryEnemy2 = SpriteKind.create()
     export const EnemyProjectile = SpriteKind.create()
+    export const ArfterHistoryPlanet = SpriteKind.create()
+    export const ArfterHistoryEnemy = SpriteKind.create()
+    export const ArfterHistorySuperLaser = SpriteKind.create()
 }
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function (sprite, otherSprite) {
     otherSprite.destroy(effects.fire, 100)
@@ -28,28 +31,104 @@ function music_title () {
     music.playMelody("C D - G F - A B ", 200)
     music.playMelody("C D - G F - A B ", 200)
 }
-sprites.onOverlap(SpriteKind.HistoryEnemy, SpriteKind.Projectile, function (sprite, otherSprite) {
-    music.smallCrash.play()
-    sprite.startEffect(effects.fire)
-    sprite.destroy(effects.disintegrate, 100)
-    otherSprite.startEffect(effects.fire)
-    otherSprite.destroy(effects.disintegrate, 100)
-})
+function shooting_direction_2 () {
+    animation.runImageAnimation(
+    projectile,
+    [img`
+        . . . . 8 6 9 1 9 6 8 . . . . . 
+        . . . . 8 6 9 1 9 6 8 . . . . . 
+        . . . . 8 6 9 1 9 6 8 . . . . . 
+        . . . . 8 6 9 1 9 6 8 . . . . . 
+        . . . . 8 6 9 1 9 6 8 . . . . . 
+        . . . . 8 6 9 1 9 6 8 . . . . . 
+        . . . . 8 6 9 1 9 6 8 . . . . . 
+        . . . . 8 6 9 1 9 6 8 . . . . . 
+        . . . . 8 6 9 1 9 6 8 . . . . . 
+        . . . . 8 6 9 1 9 6 8 . . . . . 
+        . . . . 8 6 9 1 9 6 8 . . . . . 
+        . . . . 8 6 9 1 9 6 8 . . . . . 
+        . . . . 8 6 9 1 9 6 8 . . . . . 
+        . . . . 8 6 9 1 9 6 8 . . . . . 
+        . . . . 8 6 9 1 9 6 8 . . . . . 
+        . . . . 8 6 9 1 9 6 8 . . . . . 
+        `,img`
+        . . . . 1 8 6 9 6 8 1 . . . . . 
+        . . . . 1 8 6 9 6 8 1 . . . . . 
+        . . . . 1 8 6 9 6 8 1 . . . . . 
+        . . . . 1 8 6 9 6 8 1 . . . . . 
+        . . . . 1 8 6 9 6 8 1 . . . . . 
+        . . . . 1 8 6 9 6 8 1 . . . . . 
+        . . . . 1 8 6 9 6 8 1 . . . . . 
+        . . . . 1 8 6 9 6 8 1 . . . . . 
+        . . . . 1 8 6 9 6 8 1 . . . . . 
+        . . . . 1 8 6 9 6 8 1 . . . . . 
+        . . . . 1 8 6 9 6 8 1 . . . . . 
+        . . . . 1 8 6 9 6 8 1 . . . . . 
+        . . . . 1 8 6 9 6 8 1 . . . . . 
+        . . . . 1 8 6 9 6 8 1 . . . . . 
+        . . . . 1 8 6 9 6 8 1 . . . . . 
+        . . . . 1 8 6 9 6 8 1 . . . . . 
+        `,img`
+        . . . . 9 1 8 6 8 1 9 . . . . . 
+        . . . . 9 1 8 6 8 1 9 . . . . . 
+        . . . . 9 1 8 6 8 1 9 . . . . . 
+        . . . . 9 1 8 6 8 1 9 . . . . . 
+        . . . . 9 1 8 6 8 1 9 . . . . . 
+        . . . . 9 1 8 6 8 1 9 . . . . . 
+        . . . . 9 1 8 6 8 1 9 . . . . . 
+        . . . . 9 1 8 6 8 1 9 . . . . . 
+        . . . . 9 1 8 6 8 1 9 . . . . . 
+        . . . . 9 1 8 6 8 1 9 . . . . . 
+        . . . . 9 1 8 6 8 1 9 . . . . . 
+        . . . . 9 1 8 6 8 1 9 . . . . . 
+        . . . . 9 1 8 6 8 1 9 . . . . . 
+        . . . . 9 1 8 6 8 1 9 . . . . . 
+        . . . . 9 1 8 6 8 1 9 . . . . . 
+        . . . . 9 1 8 6 8 1 9 . . . . . 
+        `,img`
+        . . . . 6 9 1 8 1 9 6 . . . . . 
+        . . . . 6 9 1 8 1 9 6 . . . . . 
+        . . . . 6 9 1 8 1 9 6 . . . . . 
+        . . . . 6 9 1 8 1 9 6 . . . . . 
+        . . . . 6 9 1 8 1 9 6 . . . . . 
+        . . . . 6 9 1 8 1 9 6 . . . . . 
+        . . . . 6 9 1 8 1 9 6 . . . . . 
+        . . . . 6 9 1 8 1 9 6 . . . . . 
+        . . . . 6 9 1 8 1 9 6 . . . . . 
+        . . . . 6 9 1 8 1 9 6 . . . . . 
+        . . . . 6 9 1 8 1 9 6 . . . . . 
+        . . . . 6 9 1 8 1 9 6 . . . . . 
+        . . . . 6 9 1 8 1 9 6 . . . . . 
+        . . . . 6 9 1 8 1 9 6 . . . . . 
+        . . . . 6 9 1 8 1 9 6 . . . . . 
+        . . . . 6 9 1 8 1 9 6 . . . . . 
+        `],
+    100,
+    true
+    )
+}
 sprites.onOverlap(SpriteKind.Projectile, SpriteKind.Heart, function (sprite, otherSprite) {
     otherSprite.destroy(effects.hearts, 100)
     sprite.destroy(effects.disintegrate, 100)
 })
-sprites.onOverlap(SpriteKind.HistoryEscape, SpriteKind.HistoryNewPlanet, function (sprite, otherSprite) {
-    sprite.destroy()
-})
+function laser_vs_blackhole () {
+    if (does_black_hole_exist == true) {
+        projectile.follow(SuperMasiveBlackHole, 150)
+    }
+}
 sprites.onOverlap(SpriteKind.Heart, SpriteKind.BlackHole, function (sprite, otherSprite) {
     scaling.scaleByPixels(sprite, 10, ScaleDirection.Horizontally, ScaleAnchor.Middle)
     scaling.scaleByPixels(sprite, -10, ScaleDirection.Vertically, ScaleAnchor.Middle)
     sprite.destroy(effects.fire, 100)
 })
-sprites.onOverlap(SpriteKind.Projectile, SpriteKind.HistoryEnemy2, function (sprite, otherSprite) {
-    music.zapped.play()
-    sprite.destroy(effects.disintegrate, 100)
+sprites.onOverlap(SpriteKind.Player, SpriteKind.HistoryEnemy, function (sprite, otherSprite) {
+    music.smallCrash.play()
+    otherSprite.startEffect(effects.fire)
+    otherSprite.destroy(effects.disintegrate, 100)
+    sprite.sayText("Hyper Drive dystroyed")
+    for (let index = 0; index < 8; index++) {
+        music.playSoundEffect(music.createSoundEffect(WaveShape.Sawtooth, 441, 709, 88, 231, 500, SoundExpressionEffect.None, InterpolationCurve.Linear), SoundExpressionPlayMode.UntilDone)
+    }
 })
 function menu () {
     is_menu_on = true
@@ -177,6 +256,13 @@ function menu () {
         `, SpriteKind.title)
     mySprite.startEffect(effects.fire)
 }
+sprites.onOverlap(SpriteKind.HistoryEnemy, SpriteKind.history, function (sprite, otherSprite) {
+    music.smallCrash.play()
+    otherSprite.startEffect(effects.fire)
+    otherSprite.destroy(effects.disintegrate, 100)
+    sprite.startEffect(effects.fire)
+    sprite.destroy(effects.disintegrate, 100)
+})
 function on_start () {
     is_menu_on = false
     game.showLongText("press spacebar to shoot, arrow keys to move and hold enter to shoot lasers", DialogLayout.Full)
@@ -304,6 +390,7 @@ function on_start () {
         8888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888
         `)
     effects.starField.startScreenEffect()
+    direction = 1
     SpaceShip = sprites.create(img`
         . . . . . . . 2 2 4 5 7 9 6 8 c 
         . . . . . . 2 4 4 2 . . . . . . 
@@ -468,15 +555,463 @@ function on_start () {
     SpaceShip.setStayInScreen(true)
     info.setLife(3)
 }
+function arfter_history () {
+    sprites.destroyAllSpritesOfKind(SpriteKind.Enemy)
+    sprites.destroyAllSpritesOfKind(SpriteKind.Player)
+    sprites.destroyAllSpritesOfKind(SpriteKind.BlackHole)
+    mySprite6 = sprites.create(img`
+        ........99999999999........
+        ......998888666666699......
+        .....95888886666666669.....
+        ....9566888866666666669....
+        ...956556888666666666669...
+        ..96655656886666666666669..
+        .9656665656866666666666669.
+        .9665656668866666666666669.
+        966565665888666666766666669
+        965666588888666667776666669
+        966656656888666677776666669
+        965666568888677777777766669
+        956656688888677777777776669
+        965668888888677777777776669
+        966566888888667777777776669
+        966656688888667777677666669
+        956566588888667777666666669
+        965665668888667776666666669
+        966656656888666666666666669
+        .9566656568866666666666669.
+        .9665666888866666666666669.
+        ..95688888886666666666669..
+        ...988888888666666666669...
+        ....9888888866666666669....
+        .....98888886666666669.....
+        ......998888666666699......
+        ........99999999999........
+        `, SpriteKind.ArfterHistoryPlanet)
+    mySprite.sayText("ok we are all safe ")
+    timer.after(2000, function () {
+        mysprite7 = sprites.create(img`
+            .......cfffffffffffffcc...
+            ........cc........ccc19c6.
+            ................ccd9119c96
+            .............cccdddd919c6.
+            .....c....ccc99dddddd99cc.
+            ...2ccc.ccbbbbb999dddd9cc.
+            ...cccccbbbbbbbbbb999d9cc.
+            ...24999999999999999999ccc
+            ...42999999999999999999ccc
+            ...cccccbbbbbbbbbb999d9cc.
+            ...2ccc.ccbbbbb999dddd9cc.
+            .....c....ccc99dddddd99cc.
+            .............cccdddd919c6.
+            ................ccd9119c96
+            ........cc........ccc19c6.
+            .......cfffffffffffffcc...
+            `, SpriteKind.ArfterHistoryEnemy)
+        mysprite7.setPosition(134, 57)
+        mySprite6.sayText("i spoke too soon")
+    })
+    timer.after(3000, function () {
+        mySprite8 = sprites.create(img`
+            . . . . . . . 2 2 4 5 7 9 6 8 c 
+            . . . . . . 2 4 4 2 . . . . . . 
+            . . . . . 2 4 5 5 4 2 . . . . . 
+            . . . . 2 4 5 7 7 5 4 2 . . . . 
+            . . . 2 4 5 7 9 9 7 5 4 2 . . . 
+            . . 2 4 5 7 9 6 6 9 7 5 4 2 . . 
+            . 2 4 5 7 9 6 8 8 6 9 7 5 4 2 . 
+            2 4 5 7 9 6 8 c c 8 6 9 7 5 4 2 
+            2 4 5 7 9 6 8 c c 8 6 9 7 5 4 2 
+            . 2 4 5 7 9 6 8 8 6 9 7 5 4 2 . 
+            . . 2 4 5 7 9 6 6 9 7 5 4 2 . . 
+            . . . 2 4 5 7 9 9 7 5 4 2 . . . 
+            . . . . 2 4 5 7 7 5 4 2 . . . . 
+            . . . . . 2 4 5 5 4 2 . . . . . 
+            . . . . . . 2 4 4 2 . . . . . . 
+            . . . . . . . 2 2 4 5 7 9 6 8 c 
+            `, SpriteKind.Player)
+        mySprite8.setPosition(68, 87)
+        mysprite7.sayText("!!@#$%%&^*& $%@#$%# #@^#%$# $%%^@%^$)", 1000, true)
+        animation.runImageAnimation(
+        mysprite7,
+        [img`
+            ........cffffffffffffcc...
+            .........cc.......ccc19c6.
+            ................ccd9119c96
+            .............cccdddd919c6.
+            .....c....ccc99dddddd99cc.
+            ...2ccc.ccbbbbb999dddd9cc.
+            ...cccccbbbbbbbbbb999d9cc.
+            ...24999999999999999999ccc
+            ...42999999999999999999ccc
+            ...cccccbbbbbbbbbb999d9cc.
+            ...2ccc.ccbbbbb999dddd9cc.
+            .....c....ccc99dddddd99cc.
+            .............cccdddd919c6.
+            ................ccd9119c96
+            ........cc........ccc19c6.
+            .......cfffffffffffffcc...
+            `,img`
+            ........cffffffffffffcc...
+            .........cc.......ccc19c6.
+            ................ccd9119c96
+            ...2.........cccdddd919c6.
+            ..2.2c....ccc99dddddd99cc.
+            ...2ccc.ccbbbbb999dddd9cc.
+            ...cccccbbbbbbbbbb999d9cc.
+            ...24999999999999999999ccc
+            ...42999999999999999999ccc
+            ...cccccbbbbbbbbbb999d9cc.
+            ...2ccc.ccbbbbb999dddd9cc.
+            ..2.2c....ccc99dddddd99cc.
+            ...2.........cccdddd919c6.
+            ................ccd9119c96
+            ........cc........ccc19c6.
+            .......cfffffffffffffcc...
+            `,img`
+            ........cffffffffffffcc...
+            .........cc.......ccc19c6.
+            ................ccd9119c96
+            ...2.........cccdddd919c6.
+            ..252c....ccc99dddddd99cc.
+            ...2ccc.ccbbbbb999dddd9cc.
+            ...cccccbbbbbbbbbb999d9cc.
+            ...24999999999999999999ccc
+            ...42999999999999999999ccc
+            ...cccccbbbbbbbbbb999d9cc.
+            ...2ccc.ccbbbbb999dddd9cc.
+            ..252c....ccc99dddddd99cc.
+            ...2.........cccdddd919c6.
+            ................ccd9119c96
+            ........cc........ccc19c6.
+            .......cfffffffffffffcc...
+            `,img`
+            ........cffffffffffffcc...
+            .........cc.......ccc19c6.
+            ................ccd9119c96
+            ...2.........cccdddd919c6.
+            ..252c....ccc99dddddd99cc.
+            .442ccc.ccbbbbb999dddd9cc.
+            ..4cccccbbbbbbbbbb999d9cc.
+            ...24999999999999999999ccc
+            ...42999999999999999999ccc
+            ..4cccccbbbbbbbbbb999d9cc.
+            .442ccc.ccbbbbb999dddd9cc.
+            ..252c....ccc99dddddd99cc.
+            ...2.........cccdddd919c6.
+            ................ccd9119c96
+            ........cc........ccc19c6.
+            .......cfffffffffffffcc...
+            `,img`
+            ........cffffffffffffcc...
+            .........cc.......ccc19c6.
+            ................ccd9119c96
+            ...22........cccdddd919c6.
+            ..252c....ccc99dddddd99cc.
+            .442ccc.ccbbbbb999dddd9cc.
+            ..4cccccbbbbbbbbbb999d9cc.
+            ...24999999999999999999ccc
+            ...42999999999999999999ccc
+            ..4cccccbbbbbbbbbb999d9cc.
+            .442ccc.ccbbbbb999dddd9cc.
+            ..252c....ccc99dddddd99cc.
+            ...22........cccdddd919c6.
+            ................ccd9119c96
+            ........cc........ccc19c6.
+            .......cfffffffffffffcc...
+            `,img`
+            ........cffffffffffffcc...
+            .........cc.......ccc19c6.
+            ................ccd9119c96
+            ...22........cccdddd919c6.
+            ..252c....ccc99dddddd99cc.
+            .442ccc.ccbbbbb999dddd9cc.
+            .24cccccbbbbbbbbbb999d9cc.
+            2..24999999999999999999ccc
+            2..42999999999999999999ccc
+            .24cccccbbbbbbbbbb999d9cc.
+            .442ccc.ccbbbbb999dddd9cc.
+            ..252c....ccc99dddddd99cc.
+            ...22........cccdddd919c6.
+            ................ccd9119c96
+            ........cc........ccc19c6.
+            .......cfffffffffffffcc...
+            `,img`
+            ........cffffffffffffcc...
+            .........cc.......ccc19c6.
+            ................ccd9119c96
+            ...22........cccdddd919c6.
+            ..252c....ccc99dddddd99cc.
+            .442ccc.ccbbbbb999dddd9cc.
+            .24cccccbbbbbbbbbb999d9cc.
+            22424999999999999999999ccc
+            24242999999999999999999ccc
+            .24cccccbbbbbbbbbb999d9cc.
+            .442ccc.ccbbbbb999dddd9cc.
+            ..252c....ccc99dddddd99cc.
+            ...22........cccdddd919c6.
+            ................ccd9119c96
+            ........cc........ccc19c6.
+            .......cfffffffffffffcc...
+            `,img`
+            ........cffffffffffffcc...
+            .........cc.......ccc19c6.
+            ....33..........ccd9119c96
+            ...223.......cccdddd919c6.
+            ..252c....ccc99dddddd99cc.
+            .442ccc.ccbbbbb999dddd9cc.
+            .24cccccbbbbbbbbbb999d9cc.
+            22424999999999999999999ccc
+            24242999999999999999999ccc
+            .24cccccbbbbbbbbbb999d9cc.
+            .442ccc.ccbbbbb999dddd9cc.
+            ..252c....ccc99dddddd99cc.
+            ...223.......cccdddd919c6.
+            ....33..........ccd9119c96
+            ........cc........ccc19c6.
+            .......cfffffffffffffcc...
+            `,img`
+            ........cffffffffffffcc...
+            .........cc.......ccc19c6.
+            ....33..........ccd9119c96
+            ...223.......cccdddd919c6.
+            ..252c....ccc99dddddd99cc.
+            .442ccc.ccbbbbb999dddd9cc.
+            .24cccccbbbbbbbbbb999d9cc.
+            22424229999999999999999ccc
+            24242229999999999999999ccc
+            .24cccccbbbbbbbbbb999d9cc.
+            .442ccc.ccbbbbb999dddd9cc.
+            ..252c....ccc99dddddd99cc.
+            ...223.......cccdddd919c6.
+            ....33..........ccd9119c96
+            ........cc........ccc19c6.
+            .......cfffffffffffffcc...
+            `,img`
+            ........cffffffffffffcc...
+            .........cc.......ccc19c6.
+            ....33..........ccd9119c96
+            ...223.......cccdddd919c6.
+            ..252c....ccc99dddddd99cc.
+            .442ccc.ccbbbbb999dddd9cc.
+            .24cccccbbbbbbbbbb999d9cc.
+            22424222299999999999999ccc
+            24242222299999999999999ccc
+            .24cccccbbbbbbbbbb999d9cc.
+            .442ccc.ccbbbbb999dddd9cc.
+            ..252c....ccc99dddddd99cc.
+            ...223.......cccdddd919c6.
+            ....33..........ccd9119c96
+            ........cc........ccc19c6.
+            .......cfffffffffffffcc...
+            `,img`
+            ........cffffffffffffcc...
+            .........cc.......ccc19c6.
+            ....33..........ccd9119c96
+            ...223.......cccdddd919c6.
+            ..252c....ccc99dddddd99cc.
+            .442ccc.ccbbbbb999dddd9cc.
+            .24cccccbbbbbbbbbb999d9cc.
+            22424222229999999999999ccc
+            24242222229999999999999ccc
+            .24cccccbbbbbbbbbb999d9cc.
+            .442ccc.ccbbbbb999dddd9cc.
+            ..252c....ccc99dddddd99cc.
+            ...223.......cccdddd919c6.
+            ....33..........ccd9119c96
+            ........cc........ccc19c6.
+            .......cfffffffffffffcc...
+            `,img`
+            ........cffffffffffffcc...
+            .........cc.......ccc19c6.
+            ....33..........ccd9119c96
+            ...223.......cccdddd919c6.
+            ..252c....ccc99dddddd99cc.
+            .442ccc.ccbbbbb999dddd9cc.
+            .24cccccbbbbbbbbbb999d9cc.
+            22424222222299999999999ccc
+            24242222222299999999999ccc
+            .24cccccbbbbbbbbbb999d9cc.
+            .442ccc.ccbbbbb999dddd9cc.
+            ..252c....ccc99dddddd99cc.
+            ...223.......cccdddd919c6.
+            ....33..........ccd9119c96
+            ........cc........ccc19c6.
+            .......cfffffffffffffcc...
+            `,img`
+            ........cffffffffffffcc...
+            .........cc.......ccc19c6.
+            ....33..........ccd9119c96
+            ...223.......cccdddd919c6.
+            ..252c....ccc99dddddd99cc.
+            .442ccc.ccbbbbb999dddd9cc.
+            .24cccccbbbbbbbbbb999d9cc.
+            22424222222222999999999ccc
+            24242222222222999999999ccc
+            .24cccccbbbbbbbbbb999d9cc.
+            .442ccc.ccbbbbb999dddd9cc.
+            ..252c....ccc99dddddd99cc.
+            ...223.......cccdddd919c6.
+            ....33..........ccd9119c96
+            ........cc........ccc19c6.
+            .......cfffffffffffffcc...
+            `,img`
+            ........cffffffffffffcc...
+            .........cc.......ccc19c6.
+            ....33..........ccd9119c96
+            ...223.......cccdddd919c6.
+            ..252c....ccc99dddddd99cc.
+            .442ccc.ccbbbbb999dddd9cc.
+            .24cccccbbbbbbbbbb999d9cc.
+            22424222222222229999999ccc
+            24242222222222229999999ccc
+            .24cccccbbbbbbbbbb999d9cc.
+            .442ccc.ccbbbbb999dddd9cc.
+            ..252c....ccc99dddddd99cc.
+            ...223.......cccdddd919c6.
+            ....33..........ccd9119c96
+            ........cc........ccc19c6.
+            .......cfffffffffffffcc...
+            `,img`
+            ........cffffffffffffcc...
+            .........cc.......ccc19c6.
+            ....33..........ccd9119c96
+            ...223.......cccdddd919c6.
+            ..252c....ccc99dddddd99cc.
+            .442ccc.ccbbbbb999dddd9cc.
+            .24cccccbbbbbbbbbb999d9cc.
+            22424222222222222299999ccc
+            24242222222222222299999ccc
+            .24cccccbbbbbbbbbb999d9cc.
+            .442ccc.ccbbbbb999dddd9cc.
+            ..252c....ccc99dddddd99cc.
+            ...223.......cccdddd919c6.
+            ....33..........ccd9119c96
+            ........cc........ccc19c6.
+            .......cfffffffffffffcc...
+            `,img`
+            ........cffffffffffffcc...
+            .........cc.......ccc19c6.
+            ....33..........ccd9119c96
+            ...223.......cccdddd919c6.
+            ..252c....ccc99dddddd99cc.
+            .442ccc.ccbbbbb999dddd9cc.
+            .24cccccbbbbbbbbbb229d9cc.
+            22424222222222222222999ccc
+            24242222222222222222999ccc
+            .24cccccbbbbbbbbbb229d9cc.
+            .442ccc.ccbbbbb999dddd9cc.
+            ..252c....ccc99dddddd99cc.
+            ...223.......cccdddd919c6.
+            ....33..........ccd9119c96
+            ........cc........ccc19c6.
+            .......cfffffffffffffcc...
+            `,img`
+            ........cffffffffffffcc...
+            .........cc.......ccc19c6.
+            ....33..........ccd9119c96
+            ...223.......cccdddd919c6.
+            ..252c....ccc99dddddd99cc.
+            .442ccc.ccbbbbb222dddd9cc.
+            .24cccccbbbbbbbbbb222d9cc.
+            22424222222222222222229ccc
+            24242222222222222222229ccc
+            .24cccccbbbbbbbbbb222d9cc.
+            .442ccc.ccbbbbb222dddd9cc.
+            ..252c....ccc99dddddd99cc.
+            ...223.......cccdddd919c6.
+            ....33..........ccd9119c96
+            ........cc........ccc19c6.
+            .......cfffffffffffffcc...
+            `,img`
+            ........cffffffffffffcc...
+            .........cc.......ccc12c6.
+            ....33..........ccd9112c96
+            ...223.......cccdddd912c6.
+            ..252c....ccc22dddddd22cc.
+            .442ccc.ccbbbbb222dddd2cc.
+            .24cccccbbbbbbbbbb222d2cc.
+            22424222222222222222222ccc
+            24242222222222222222222ccc
+            .24cccccbbbbbbbbbb222d2cc.
+            .442ccc.ccbbbbb222dddd2cc.
+            ..252c....ccc22dddddd22cc.
+            ...223.......cccdddd912c6.
+            ....33..........ccd9112c96
+            ........cc........ccc12c6.
+            .......cfffffffffffffcc...
+            `,img`
+            ........cffffffffffffcc...
+            .........cc.......ccc12c6.
+            ....33..........ccd2112c96
+            ...223.......cccdddd212c6.
+            ..252c....ccc22dddddd22cc.
+            .442ccc.ccbbbbb222dddd2cc.
+            .24cccccbbbbbbbbbb222d2cc.
+            22424222222222222222222ccc
+            24242222222222222222222ccc
+            .24cccccbbbbbbbbbb222d2cc.
+            .442ccc.ccbbbbb222dddd2cc.
+            ..252c....ccc22dddddd22cc.
+            ...223.......cccdddd212c6.
+            ....33..........ccd2112c96
+            ........cc........ccc12c6.
+            .......cfffffffffffffcc...
+            `,img`
+            ........cffffffffffffcc...
+            .........cc.......ccc12c2.
+            ....33..........ccd2112c52
+            ...223.......cccdddd212c2.
+            ..252c....ccc22dddddd22cc.
+            .442ccc.ccbbbbb222dddd2cc.
+            .24cccccbbbbbbbbbb222d2cc.
+            22424222222222222222222ccc
+            24242222222222222222222ccc
+            .24cccccbbbbbbbbbb222d2cc.
+            .442ccc.ccbbbbb222dddd2cc.
+            ..252c....ccc22dddddd22cc.
+            ...223.......cccdddd212c2.
+            ....33..........ccd2112c52
+            ........cc........ccc12c2.
+            .......cfffffffffffffcc...
+            `],
+        100,
+        false
+        )
+    })
+    timer.after(6000, function () {
+        projectile7 = sprites.createProjectileFromSprite(img`
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . 2 2 2 2 2 2 2 . . . . . 
+            . . . 2 2 4 5 5 5 4 2 2 . . . . 
+            . . 2 4 4 4 4 1 4 4 4 4 2 . . . 
+            . . . 2 2 4 5 5 5 4 2 2 . . . . 
+            . . . . 2 2 2 2 2 2 2 . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            `, mysprite7, 50, 0)
+        projectile7.follow(mySprite6, 50)
+        projectile7.setKind(SpriteKind.ArfterHistorySuperLaser)
+    })
+}
 sprites.onOverlap(SpriteKind.Projectile, SpriteKind.BlackHole, function (sprite, otherSprite) {
     scaling.scaleByPixels(sprite, 10, ScaleDirection.Horizontally, ScaleAnchor.Middle)
     scaling.scaleByPixels(sprite, -10, ScaleDirection.Vertically, ScaleAnchor.Middle)
     sprite.destroy(effects.fire, 100)
+    scaling.scaleByPixels(otherSprite, 5, ScaleDirection.Uniformly, ScaleAnchor.Middle)
 })
 info.onLifeZero(function () {
     Do_not_do_this_again = true
     if (Do_not_do_this_again == true) {
-        if (info.score() <= 30) {
+        if (info.score() <= 24) {
             does_black_hole_exist = true
             effects.starField.endScreenEffect()
             SuperMasiveBlackHole = sprites.create(img`
@@ -518,7 +1053,7 @@ info.onLifeZero(function () {
                 does_black_hole_exist = false
                 Enemies.setVelocity(randint(-100, -200), 0)
             })
-        } else if (info.score() >= 50) {
+        } else if (info.score() >= 25) {
             last_supernova = sprites.create(img`
                 . . . . . . . . . . . . . . . . 
                 . . . . . . . . . . . . . . . . 
@@ -817,6 +1352,7 @@ info.onLifeZero(function () {
             false
             )
             controller.moveSprite(SpaceShip, 0, 0)
+            sprites.destroyAllSpritesOfKind(SpriteKind.Enemy)
             has_time_ended = true
             timer.after(2000, function () {
                 game.setDialogFrame(img`
@@ -874,13 +1410,6 @@ info.onLifeZero(function () {
             })
         }
     }
-})
-sprites.onOverlap(SpriteKind.HistoryEnemy, SpriteKind.history, function (sprite, otherSprite) {
-    music.smallCrash.play()
-    otherSprite.startEffect(effects.fire)
-    otherSprite.destroy(effects.disintegrate, 100)
-    sprite.startEffect(effects.fire)
-    sprite.destroy(effects.disintegrate, 100)
 })
 controller.menu.onEvent(ControllerButtonEvent.Pressed, function () {
     menu()
@@ -954,10 +1483,94 @@ controller.B.onEvent(ControllerButtonEvent.Pressed, function () {
         }
     }
 })
+function shooting_direction () {
+    animation.runImageAnimation(
+    projectile,
+    [img`
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 
+        6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 
+        9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 
+        1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 
+        9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 
+        6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 
+        8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        `,img`
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 
+        8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 
+        6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 
+        9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 
+        6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 
+        8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 
+        1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        `,img`
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 
+        1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 
+        8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 
+        6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 
+        8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 
+        1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 
+        9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        `,img`
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 
+        9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 
+        1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 
+        8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 
+        1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 
+        9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 
+        6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        `],
+    100,
+    true
+    )
+}
+sprites.onOverlap(SpriteKind.HistoryEnemy, SpriteKind.Projectile, function (sprite, otherSprite) {
+    music.smallCrash.play()
+    sprite.startEffect(effects.fire)
+    sprite.destroy(effects.disintegrate, 100)
+    otherSprite.startEffect(effects.fire)
+    otherSprite.destroy(effects.disintegrate, 100)
+})
 sprites.onOverlap(SpriteKind.Enemy, SpriteKind.BlackHole, function (sprite, otherSprite) {
     scaling.scaleByPixels(sprite, 10, ScaleDirection.Horizontally, ScaleAnchor.Middle)
     scaling.scaleByPixels(sprite, -10, ScaleDirection.Vertically, ScaleAnchor.Middle)
     sprite.destroy(effects.fire, 100)
+    scaling.scaleByPixels(otherSprite, 2, ScaleDirection.Uniformly, ScaleAnchor.Middle)
 })
 function music2 () {
     music.playMelody("C5 B G A F E G A ", 300)
@@ -969,6 +1582,10 @@ function music2 () {
     music.playMelody("B A G B C5 G F A ", 300)
     music.playMelody("B A G D A E G A ", 300)
 }
+sprites.onOverlap(SpriteKind.EnemyProjectile, SpriteKind.HistoryNewPlanet, function (sprite, otherSprite) {
+    is_earth_attacking = false
+    sprite.destroy(effects.fire, 100)
+})
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Heart, function (sprite, otherSprite) {
     if (info.life() != 5) {
         info.changeLifeBy(1)
@@ -981,106 +1598,97 @@ controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
     if (is_menu_on == true) {
         History()
         music.sonar.play()
-    }
-    if (has_time_ended == false) {
-        projectile = sprites.createProjectileFromSprite(img`
-            . . . . . . . . . . . . . . . . 
-            . . . . . . . . . . . . . . . . 
-            . . . . . . . . . . . . . . . . 
-            . . . . . . . . . . . . . . . . 
-            . . . . . . . . . . . . . . . . 
-            8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 
-            6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 
-            9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 
-            1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 
-            9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 
-            6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 
-            8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 
-            . . . . . . . . . . . . . . . . 
-            . . . . . . . . . . . . . . . . 
-            . . . . . . . . . . . . . . . . 
-            . . . . . . . . . . . . . . . . 
-            `, SpaceShip, 200, 0)
-        animation.runImageAnimation(
-        projectile,
-        [img`
-            . . . . . . . . . . . . . . . . 
-            . . . . . . . . . . . . . . . . 
-            . . . . . . . . . . . . . . . . 
-            . . . . . . . . . . . . . . . . 
-            . . . . . . . . . . . . . . . . 
-            8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 
-            6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 
-            9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 
-            1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 
-            9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 
-            6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 
-            8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 
-            . . . . . . . . . . . . . . . . 
-            . . . . . . . . . . . . . . . . 
-            . . . . . . . . . . . . . . . . 
-            . . . . . . . . . . . . . . . . 
-            `,img`
-            . . . . . . . . . . . . . . . . 
-            . . . . . . . . . . . . . . . . 
-            . . . . . . . . . . . . . . . . 
-            . . . . . . . . . . . . . . . . 
-            . . . . . . . . . . . . . . . . 
-            1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 
-            8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 
-            6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 
-            9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 
-            6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 
-            8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 
-            1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 
-            . . . . . . . . . . . . . . . . 
-            . . . . . . . . . . . . . . . . 
-            . . . . . . . . . . . . . . . . 
-            . . . . . . . . . . . . . . . . 
-            `,img`
-            . . . . . . . . . . . . . . . . 
-            . . . . . . . . . . . . . . . . 
-            . . . . . . . . . . . . . . . . 
-            . . . . . . . . . . . . . . . . 
-            . . . . . . . . . . . . . . . . 
-            9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 
-            1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 
-            8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 
-            6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 
-            8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 
-            1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 
-            9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 
-            . . . . . . . . . . . . . . . . 
-            . . . . . . . . . . . . . . . . 
-            . . . . . . . . . . . . . . . . 
-            . . . . . . . . . . . . . . . . 
-            `,img`
-            . . . . . . . . . . . . . . . . 
-            . . . . . . . . . . . . . . . . 
-            . . . . . . . . . . . . . . . . 
-            . . . . . . . . . . . . . . . . 
-            . . . . . . . . . . . . . . . . 
-            6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 
-            9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 
-            1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 
-            8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 
-            1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 
-            9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 
-            6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 
-            . . . . . . . . . . . . . . . . 
-            . . . . . . . . . . . . . . . . 
-            . . . . . . . . . . . . . . . . 
-            . . . . . . . . . . . . . . . . 
-            `],
-        100,
-        true
-        )
-        if (does_black_hole_exist == true) {
-            projectile.follow(SuperMasiveBlackHole, 150)
+    } else {
+        if (has_time_ended == false) {
+            if (direction == 1) {
+                projectile = sprites.createProjectileFromSprite(img`
+                    . . . . . . . . . . . . . . . . 
+                    . . . . . . . . . . . . . . . . 
+                    . . . . . . . . . . . . . . . . 
+                    . . . . . . . . . . . . . . . . 
+                    . . . . . . . . . . . . . . . . 
+                    8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 
+                    6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 
+                    9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 
+                    1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 
+                    9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 
+                    6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 
+                    8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 
+                    . . . . . . . . . . . . . . . . 
+                    . . . . . . . . . . . . . . . . 
+                    . . . . . . . . . . . . . . . . 
+                    . . . . . . . . . . . . . . . . 
+                    `, SpaceShip, 200, 0)
+                shooting_direction()
+                laser_vs_blackhole()
+            } else if (direction == 2) {
+                projectile = sprites.createProjectileFromSprite(img`
+                    . . . . . . . . . . . . . . . . 
+                    . . . . . . . . . . . . . . . . 
+                    . . . . . . . . . . . . . . . . 
+                    . . . . . . . . . . . . . . . . 
+                    . . . . . . . . . . . . . . . . 
+                    8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 
+                    6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 
+                    9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 
+                    1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 
+                    9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 
+                    6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 
+                    8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 
+                    . . . . . . . . . . . . . . . . 
+                    . . . . . . . . . . . . . . . . 
+                    . . . . . . . . . . . . . . . . 
+                    . . . . . . . . . . . . . . . . 
+                    `, SpaceShip, -200, 0)
+                shooting_direction()
+                laser_vs_blackhole()
+            } else if (direction == 3) {
+                projectile = sprites.createProjectileFromSprite(img`
+                    . . . . . . . . . . . . . . . . 
+                    . . . . . . . . . . . . . . . . 
+                    . . . . . . . . . . . . . . . . 
+                    . . . . . . . . . . . . . . . . 
+                    . . . . . . . . . . . . . . . . 
+                    8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 
+                    6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 
+                    9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 
+                    1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 
+                    9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 
+                    6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 
+                    8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 
+                    . . . . . . . . . . . . . . . . 
+                    . . . . . . . . . . . . . . . . 
+                    . . . . . . . . . . . . . . . . 
+                    . . . . . . . . . . . . . . . . 
+                    `, SpaceShip, 0, -200)
+                shooting_direction_2()
+                laser_vs_blackhole()
+            } else if (direction == 4) {
+                projectile = sprites.createProjectileFromSprite(img`
+                    . . . . . . . . . . . . . . . . 
+                    . . . . . . . . . . . . . . . . 
+                    . . . . . . . . . . . . . . . . 
+                    . . . . . . . . . . . . . . . . 
+                    . . . . . . . . . . . . . . . . 
+                    8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 
+                    6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 
+                    9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 
+                    1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 
+                    9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 
+                    6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 
+                    8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 
+                    . . . . . . . . . . . . . . . . 
+                    . . . . . . . . . . . . . . . . 
+                    . . . . . . . . . . . . . . . . 
+                    . . . . . . . . . . . . . . . . 
+                    `, SpaceShip, 0, 200)
+                shooting_direction_2()
+                laser_vs_blackhole()
+            }
+            music.pewPew.play()
         }
-        music.pewPew.play()
+        projectile.setFlag(SpriteFlag.AutoDestroy, true)
     }
-    projectile.setFlag(SpriteFlag.AutoDestroy, true)
 })
 sprites.onOverlap(SpriteKind.HistoryEscape, SpriteKind.HistoryMultibleEnemies, function (sprite, otherSprite) {
     music.smallCrash.play()
@@ -1089,9 +1697,157 @@ sprites.onOverlap(SpriteKind.HistoryEscape, SpriteKind.HistoryMultibleEnemies, f
     sprite.startEffect(effects.fire)
     sprite.destroy(effects.disintegrate, 100)
 })
-sprites.onOverlap(SpriteKind.EnemyProjectile, SpriteKind.HistoryNewPlanet, function (sprite, otherSprite) {
-    is_earth_attacking = false
-    sprite.destroy(effects.fire, 100)
+sprites.onOverlap(SpriteKind.HistoryEscape, SpriteKind.HistoryNewPlanet, function (sprite, otherSprite) {
+    sprite.destroy()
+})
+sprites.onOverlap(SpriteKind.Projectile, SpriteKind.HistoryEnemy2, function (sprite, otherSprite) {
+    music.zapped.play()
+    sprite.destroy(effects.disintegrate, 100)
+})
+controller.up.onEvent(ControllerButtonEvent.Pressed, function () {
+    direction = 3
+    animation.runImageAnimation(
+    SpaceShip,
+    [img`
+        c . . . . . . 2 2 . . . . . . c 
+        8 . . . . . 2 4 4 2 . . . . . 8 
+        6 . . . . 2 4 5 5 4 2 . . . . 6 
+        9 . . . 2 4 5 7 7 5 4 2 . . . 9 
+        7 . . 2 4 5 7 9 9 7 5 4 2 . . 7 
+        5 . 2 4 5 7 9 6 6 9 7 5 4 2 . 5 
+        4 2 4 5 7 9 6 8 8 6 9 7 5 4 2 4 
+        2 4 5 7 9 6 8 c c 8 6 9 7 5 4 2 
+        2 4 5 7 9 6 8 c c 8 6 9 7 5 4 2 
+        . 2 4 5 7 9 6 8 8 6 9 7 5 4 2 . 
+        . . 2 4 5 7 9 6 6 9 7 5 4 2 . . 
+        . . . 2 4 5 7 9 9 7 5 4 2 . . . 
+        . . . . 2 4 5 7 7 5 4 2 . . . . 
+        . . . . . 2 4 5 5 4 2 . . . . . 
+        . . . . . . 2 4 4 2 . . . . . . 
+        . . . . . . . 2 2 . . . . . . . 
+        `,img`
+        c . . . . . . c c . . . . . . c 
+        8 . . . . . c 2 2 c . . . . . 8 
+        6 . . . . c 2 4 4 2 c . . . . 6 
+        9 . . . c 2 4 5 5 4 2 c . . . 9 
+        7 . . c 2 4 5 7 7 5 4 2 c . . 7 
+        5 . c 2 4 5 7 9 9 7 5 4 2 c . 5 
+        4 c 2 4 5 7 9 6 6 9 7 5 4 2 c 4 
+        c 2 4 5 7 9 6 8 8 6 9 7 5 4 2 c 
+        c 2 4 5 7 9 6 8 8 6 9 7 5 4 2 c 
+        . c 2 4 5 7 9 6 6 9 7 5 4 2 c . 
+        . . c 2 4 5 7 9 9 7 5 4 2 c . . 
+        . . . c 2 4 5 7 7 5 4 2 c . . . 
+        . . . . c 2 4 5 5 4 2 c . . . . 
+        . . . . . c 2 4 4 2 c . . . . . 
+        . . . . . . c 2 2 c . . . . . . 
+        . . . . . . . c c . . . . . . . 
+        `,img`
+        c . . . . . . 8 8 . . . . . . c 
+        8 . . . . . 8 c c 8 . . . . . 8 
+        6 . . . . 8 c 2 2 c 8 . . . . 6 
+        9 . . . 8 c 2 4 4 2 c 8 . . . 9 
+        7 . . 8 c 2 4 5 5 4 2 c 8 . . 7 
+        5 . 8 c 2 4 5 7 7 5 4 2 c 8 . 5 
+        4 8 c 2 4 5 7 9 9 7 5 4 2 c 8 4 
+        8 c 2 4 5 7 9 6 6 9 7 5 4 2 c 8 
+        8 c 2 4 5 7 9 6 6 9 7 5 4 2 c 8 
+        . 8 c 2 4 5 7 9 9 7 5 4 2 c 8 . 
+        . . 8 c 2 4 5 7 7 5 4 2 c 8 . . 
+        . . . 8 c 2 4 5 5 4 2 c 8 . . . 
+        . . . . 8 c 2 4 4 2 c 8 . . . . 
+        . . . . . 8 c 2 2 c 8 . . . . . 
+        . . . . . . 8 c c 8 . . . . . . 
+        . . . . . . . 8 8 . . . . . . . 
+        `,img`
+        c . . . . . . 6 6 . . . . . . c 
+        8 . . . . . 6 8 8 6 . . . . . 8 
+        6 . . . . 6 8 c c 8 6 . . . . 6 
+        9 . . . 6 8 c 2 2 c 8 6 . . . 9 
+        7 . . 6 8 c 2 4 4 2 c 8 6 . . 7 
+        5 . 6 8 c 2 4 5 5 4 2 c 8 6 . 5 
+        4 6 8 c 2 4 5 7 7 5 4 2 c 8 6 4 
+        6 8 c 2 4 5 7 9 9 7 5 4 2 c 8 6 
+        6 8 c 2 4 5 7 9 9 7 5 4 2 c 8 6 
+        . 6 8 c 2 4 5 7 7 5 4 2 c 8 6 . 
+        . . 6 8 c 2 4 5 5 4 2 c 8 6 . . 
+        . . . 6 8 c 2 4 4 2 c 8 6 . . . 
+        . . . . 6 8 c 2 2 c 8 6 . . . . 
+        . . . . . 6 8 c c 8 6 . . . . . 
+        . . . . . . 6 8 8 6 . . . . . . 
+        . . . . . . . 6 6 . . . . . . . 
+        `,img`
+        c . . . . . . 9 9 . . . . . . c 
+        8 . . . . . 9 6 6 9 . . . . . 8 
+        6 . . . . 9 6 8 8 6 9 . . . . 6 
+        9 . . . 9 6 8 c c 8 6 9 . . . 9 
+        7 . . 9 6 8 c 2 2 c 8 6 9 . . 7 
+        5 . 9 6 8 c 2 4 4 2 c 8 6 9 . 5 
+        4 9 6 8 c 2 4 5 5 4 2 c 8 6 9 4 
+        9 6 8 c 2 4 5 7 7 5 4 2 c 8 6 9 
+        9 6 8 c 2 4 5 7 7 5 4 2 c 8 6 9 
+        . 9 6 8 c 2 4 5 5 4 2 c 8 6 9 . 
+        . . 9 6 8 c 2 4 4 2 c 8 6 9 . . 
+        . . . 9 6 8 c 2 2 c 8 6 9 . . . 
+        . . . . 9 6 8 c c 8 6 9 . . . . 
+        . . . . . 9 6 8 8 6 9 . . . . . 
+        . . . . . . 9 6 6 9 . . . . . . 
+        . . . . . . . 9 9 . . . . . . . 
+        `,img`
+        c . . . . . . 7 7 . . . . . . c 
+        8 . . . . . 7 9 9 7 . . . . . 8 
+        6 . . . . 7 9 6 6 9 7 . . . . 6 
+        9 . . . 7 9 6 8 8 6 9 7 . . . 9 
+        7 . . 7 9 6 8 c c 8 6 9 7 . . 7 
+        5 . 7 9 6 8 c 2 2 c 8 6 9 7 . 5 
+        4 7 9 6 8 c 2 4 4 2 c 8 6 9 7 4 
+        7 9 6 8 c 2 4 5 5 4 2 c 8 6 9 7 
+        7 9 6 8 c 2 4 5 5 4 2 c 8 6 9 7 
+        . 7 9 6 8 c 2 4 4 2 c 8 6 9 7 . 
+        . . 7 9 6 8 c 2 2 c 8 6 9 7 . . 
+        . . . 7 9 6 8 c c 8 6 9 7 . . . 
+        . . . . 7 9 6 8 8 6 9 7 . . . . 
+        . . . . . 7 9 6 6 9 7 . . . . . 
+        . . . . . . 7 9 9 7 . . . . . . 
+        . . . . . . . 7 7 . . . . . . . 
+        `,img`
+        c . . . . . . 5 5 . . . . . . c 
+        8 . . . . . 5 7 7 5 . . . . . 8 
+        6 . . . . 5 7 9 9 7 5 . . . . 6 
+        9 . . . 5 7 9 6 6 9 7 5 . . . 9 
+        7 . . 5 7 9 6 8 8 6 9 7 5 . . 7 
+        5 . 5 7 9 6 8 c c 8 6 9 7 5 . 5 
+        4 5 7 9 6 8 c 2 2 c 8 6 9 7 5 4 
+        5 7 9 6 8 c 2 4 4 2 c 8 6 9 7 5 
+        5 7 9 6 8 c 2 4 4 2 c 8 6 9 7 5 
+        . 5 7 9 6 8 c 2 2 c 8 6 9 7 5 . 
+        . . 5 7 9 6 8 c c 8 6 9 7 5 . . 
+        . . . 5 7 9 6 8 8 6 9 7 5 . . . 
+        . . . . 5 7 9 6 6 9 7 5 . . . . 
+        . . . . . 5 7 9 9 7 5 . . . . . 
+        . . . . . . 5 7 7 5 . . . . . . 
+        . . . . . . . 5 5 . . . . . . . 
+        `,img`
+        c . . . . . . 4 4 . . . . . . c 
+        8 . . . . . 4 5 5 4 . . . . . 8 
+        6 . . . . 4 5 7 7 5 4 . . . . 6 
+        9 . . . 4 5 7 9 9 7 5 4 . . . 9 
+        7 . . 4 5 7 9 6 6 9 7 5 4 . . 7 
+        5 . 4 5 7 9 6 8 8 6 9 7 5 4 . 5 
+        4 4 5 7 9 6 8 c c 8 6 9 7 5 4 4 
+        4 5 7 9 6 8 c 2 2 c 8 6 9 7 5 4 
+        4 5 7 9 6 8 c 2 2 c 8 6 9 7 5 4 
+        . 4 5 7 9 6 8 c c 8 6 9 7 5 4 . 
+        . . 4 5 7 9 6 8 8 6 9 7 5 4 . . 
+        . . . 4 5 7 9 6 6 9 7 5 4 . . . 
+        . . . . 4 5 7 9 9 7 5 4 . . . . 
+        . . . . . 4 5 7 7 5 4 . . . . . 
+        . . . . . . 4 5 5 4 . . . . . . 
+        . . . . . . . 4 4 . . . . . . . 
+        `],
+    100,
+    true
+    )
 })
 function History () {
     list = [
@@ -1470,6 +2226,7 @@ function History () {
         is_alein_attacking = true
     })
     timer.after(22000, function () {
+        mySprite.sayText("FIRE")
         is_earth_attacking = true
     })
     timer.after(23000, function () {
@@ -1477,8 +2234,8 @@ function History () {
         is_alein_attacking = false
         mysprite7.sayText("!@#@#$#@ @$^*($##@ $$%%#$", 1000, true)
     })
-    timer.after(24000, function () {
-        mysprite7.destroy(effects.coolRadial, 2000)
+    timer.after(25000, function () {
+        mysprite7.destroy(effects.coolRadial, 5000)
     })
     timer.after(26000, function () {
         mySprite8 = sprites.create(img`
@@ -1499,16 +2256,37 @@ function History () {
             . . . . . . 2 4 4 2 . . . . . . 
             . . . . . . . 2 2 4 5 7 9 6 8 c 
             `, SpriteKind.Player)
-        mySprite.setPosition(104, 59)
-        mySprite6.sayText("Ship dystroy those astroids so we don't get hit", 5000, true)
+        mySprite8.setPosition(104, 59)
+        mySprite6.sayText("rainbow ship dystroy those astroids so we don't get hit ok", 5000, true)
     })
     timer.after(31000, function () {
         mySprite6.sayText("Remember when mars got dystroyed?", 5000, true)
     })
     timer.after(33000, function () {
         mySprite8.setVelocity(100, 0)
+        mySprite9 = sprites.create(img`
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . c c c c . . 
+            . c c c c c . c c c c c f c c . 
+            c c a c c c c c 8 f f c f f c c 
+            c a f a a c c a f f c a a f f c 
+            c a 8 f a a c a c c c a a a a c 
+            c b c f a a a a a c c c c c c c 
+            c b b a a c f 8 a c c c 8 c c c 
+            . c b b a b c f a a a 8 8 c c . 
+            . . . . a a b b b a a 8 a c . . 
+            . . . . c b c a a c c b . . . . 
+            . . . . b b c c a b b a . . . . 
+            . . . . b b a b a 6 a . . . . . 
+            . . . . c b b b 6 6 c . . . . . 
+            . . . . . c a 6 6 b c . . . . . 
+            . . . . . . . c c c . . . . . . 
+            `, SpriteKind.HistoryEnemy)
+        mySprite9.setPosition(99, 122)
+        mySprite9.setVelocity(100, -200)
     })
-    timer.after(36000, function () {
+    timer.after(40000, function () {
+        mySprite6.destroy()
         on_start()
     })
 }
@@ -1517,6 +2295,31 @@ sprites.onOverlap(SpriteKind.Projectile, SpriteKind.Enemy, function (sprite, oth
     otherSprite.destroy(effects.fire, 100)
     info.changeScoreBy(1)
     music.smallCrash.play()
+})
+sprites.onOverlap(SpriteKind.ArfterHistoryPlanet, SpriteKind.ArfterHistorySuperLaser, function (sprite, otherSprite) {
+    animation.runImageAnimation(
+    mySprite6,
+    [img`
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        `],
+    500,
+    false
+    )
 })
 sprites.onOverlap(SpriteKind.Player, SpriteKind.BlackHole, function (sprite, otherSprite) {
     game.setDialogFrame(img`
@@ -1565,38 +2368,42 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.BlackHole, function (sprite, oth
     game.showLongText("your broken hyperspace machine made a SuperMasive black hole that made you and everything around you go into it. you were never to be seen again", DialogLayout.Center)
     game.over(false, effects.dissolve)
 })
-let projectile6: Sprite = null
-let muSprite5: Sprite = null
-let mySprite4: Sprite = null
 let hearts: Sprite = null
 let projectile5: Sprite = null
 let projectile4: Sprite = null
-let mySprite8: Sprite = null
+let muSprite5: Sprite = null
+let projectile6: Sprite = null
+let mySprite4: Sprite = null
+let mySprite9: Sprite = null
 let is_alein_attacking = false
-let mysprite7: Sprite = null
 let projectile3: Sprite = null
 let finaly_at_earth = false
-let mySprite6: Sprite = null
 let mySprite3: Sprite = null
 let mySprite2: Sprite = null
 let list: Image[] = []
 let is_earth_attacking = false
-let projectile: Sprite = null
 let projectile2: Sprite = null
 let statusbar: StatusBarSprite = null
 let has_time_ended = false
 let last_supernova: Sprite = null
 let Enemies: Sprite = null
-let SuperMasiveBlackHole: Sprite = null
-let does_black_hole_exist = false
 let Do_not_do_this_again = false
+let projectile7: Sprite = null
+let mySprite8: Sprite = null
+let mysprite7: Sprite = null
+let mySprite6: Sprite = null
 let SpaceShip: Sprite = null
+let direction = 0
 let statusbar_exists = false
 let mySprite: Sprite = null
 let is_menu_on = false
+let SuperMasiveBlackHole: Sprite = null
+let does_black_hole_exist = false
+let projectile: Sprite = null
 let History_Escape_Happening = false
 menu()
 History_Escape_Happening = false
+let part2 = false
 game.onUpdateInterval(randint(300, 1000), function () {
     if (is_menu_on == true) {
     	
@@ -1615,6 +2422,9 @@ game.onUpdateInterval(randint(300, 1000), function () {
 })
 forever(function () {
     if (info.score() == 60) {
+        sprites.destroyAllSpritesOfKind(SpriteKind.Enemy)
+        sprites.destroyAllSpritesOfKind(SpriteKind.Heart)
+        sprites.destroyAllSpritesOfKind(SpriteKind.Player)
         game.setDialogFrame(img`
             999999999999999999999999999999999999999999999999
             999999999999999999999999999999999999999999999999
@@ -1685,9 +2495,72 @@ forever(function () {
             `)
         game.setDialogTextColor(7)
         game.showLongText("you dystroyed those astroids and saved Earth", DialogLayout.Center)
+        arfter_history()
     }
 })
-game.onUpdateInterval(1000, function () {
+game.onUpdateInterval(500, function () {
+    if (History_Escape_Happening == true) {
+        mySprite4 = sprites.create(img`
+            . . . . . . . c d . . . . . . . 
+            . . . . . . . c d . . . . . . . 
+            . . . . . . . c d . . . . . . . 
+            . . . . . . . c b . . . . . . . 
+            . . . . . . . f f . . . . . . . 
+            . . . . . . . c 7 . . . . . . . 
+            . . . . . . . f f . . . . . . . 
+            . . . . . . . 8 7 . . . . . . . 
+            . . . . . . 8 8 5 6 . . . . . . 
+            . . . . . . 8 7 5 6 . . . . . . 
+            . . . . . c c c 6 6 6 . . . . . 
+            . . . . 8 8 7 7 7 5 6 6 . . . . 
+            . . 8 f f f c c 6 6 f f 6 6 . . 
+            . 8 8 8 8 6 6 7 7 7 7 5 7 6 6 . 
+            8 8 8 8 8 8 6 6 7 7 7 5 7 7 6 6 
+            8 8 8 8 8 8 6 6 7 7 7 7 5 7 6 6 
+            `, SpriteKind.HistoryEscape)
+        mySprite4.setPosition(randint(0, scene.screenWidth()), 111)
+        if (finaly_at_earth == false) {
+            mySprite4.setVelocity(0, -50)
+        } else {
+            mySprite4.follow(mySprite6, 100)
+        }
+        mySprite4.setFlag(SpriteFlag.AutoDestroy, true)
+    }
+})
+game.onUpdateInterval(500, function () {
+    if (is_earth_attacking == true) {
+        projectile6 = sprites.createProjectileFromSprite(img`
+            . . 2 2 . . 
+            . 2 4 4 2 . 
+            2 4 5 5 4 2 
+            2 4 5 5 4 2 
+            . 2 4 4 2 . 
+            . . 2 2 . . 
+            `, mySprite6, 0, 0)
+        projectile6.setKind(SpriteKind.Projectile)
+        projectile6.follow(mysprite7, 100)
+    }
+})
+game.onUpdateInterval(500, function () {
+    if (part2 == false) {
+        if (finaly_at_earth == false) {
+            if (History_Escape_Happening == true) {
+                muSprite5 = sprites.create(list._pickRandom(), SpriteKind.HistoryMultibleEnemies)
+                muSprite5.setPosition(randint(0, scene.screenWidth()), 1)
+                muSprite5.setVelocity(0, 50)
+                muSprite5.setFlag(SpriteFlag.AutoDestroy, true)
+            }
+        } else {
+        	
+        }
+    } else {
+        muSprite5 = sprites.create(list._pickRandom(), SpriteKind.HistoryMultibleEnemies)
+        muSprite5.setPosition(151, randint(0, scene.screenHeight()))
+        muSprite5.setVelocity(-50, 0)
+        muSprite5.setFlag(SpriteFlag.AutoDestroy, true)
+    }
+})
+game.onUpdateInterval(510, function () {
     if (is_alein_attacking == true) {
         projectile4 = sprites.createProjectileFromSprite(img`
             . . . . . . . . . . . . . . . . 
@@ -1727,9 +2600,9 @@ game.onUpdateInterval(1000, function () {
             . . . . . . . . . . . . . . . . 
             `, mysprite7, 0, -50)
         projectile5.setKind(SpriteKind.EnemyProjectile)
-        timer.after(2000, function () {
-            projectile4.follow(mySprite6, 100)
-            projectile5.follow(mySprite6, 100)
+        timer.after(500, function () {
+            projectile4.setVelocity(-50, -20)
+            projectile5.setVelocity(-50, 20)
         })
     }
 })
@@ -1904,61 +2777,6 @@ game.onUpdateInterval(5000, function () {
             hearts.setPosition(160, randint(5, 155))
             hearts.setFlag(SpriteFlag.AutoDestroy, true)
         }
-    }
-})
-game.onUpdateInterval(500, function () {
-    if (History_Escape_Happening == true) {
-        mySprite4 = sprites.create(img`
-            . . . . . . . c d . . . . . . . 
-            . . . . . . . c d . . . . . . . 
-            . . . . . . . c d . . . . . . . 
-            . . . . . . . c b . . . . . . . 
-            . . . . . . . f f . . . . . . . 
-            . . . . . . . c 7 . . . . . . . 
-            . . . . . . . f f . . . . . . . 
-            . . . . . . . 8 7 . . . . . . . 
-            . . . . . . 8 8 5 6 . . . . . . 
-            . . . . . . 8 7 5 6 . . . . . . 
-            . . . . . c c c 6 6 6 . . . . . 
-            . . . . 8 8 7 7 7 5 6 6 . . . . 
-            . . 8 f f f c c 6 6 f f 6 6 . . 
-            . 8 8 8 8 6 6 7 7 7 7 5 7 6 6 . 
-            8 8 8 8 8 8 6 6 7 7 7 5 7 7 6 6 
-            8 8 8 8 8 8 6 6 7 7 7 7 5 7 6 6 
-            `, SpriteKind.HistoryEscape)
-        mySprite4.setPosition(randint(0, scene.screenWidth()), 111)
-        if (finaly_at_earth == false) {
-            mySprite4.setVelocity(0, -50)
-        } else {
-            mySprite4.follow(mySprite6, 100)
-        }
-        mySprite4.setFlag(SpriteFlag.AutoDestroy, true)
-    }
-})
-game.onUpdateInterval(500, function () {
-    if (finaly_at_earth == false) {
-        if (History_Escape_Happening == true) {
-            muSprite5 = sprites.create(list._pickRandom(), SpriteKind.HistoryMultibleEnemies)
-            muSprite5.setPosition(randint(0, scene.screenWidth()), 1)
-            muSprite5.setVelocity(0, 50)
-            muSprite5.setFlag(SpriteFlag.AutoDestroy, true)
-        }
-    } else {
-    	
-    }
-})
-game.onUpdateInterval(500, function () {
-    if (is_earth_attacking == true) {
-        projectile6 = sprites.createProjectileFromSprite(img`
-            . . 2 2 . . 
-            . 2 4 4 2 . 
-            2 4 5 5 4 2 
-            2 4 5 5 4 2 
-            . 2 4 4 2 . 
-            . . 2 2 . . 
-            `, mySprite6, 0, 0)
-        projectile6.setKind(SpriteKind.Projectile)
-        projectile6.follow(mysprite7, 100)
     }
 })
 forever(function () {
