@@ -1109,6 +1109,9 @@ function shooting_direction () {
     true
     )
 }
+statusbars.onZero(StatusBarKind.EnemyHealth, function (status) {
+    sprites.destroy(boss_1)
+})
 sprites.onOverlap(SpriteKind.HistoryEnemy, SpriteKind.Projectile, function (sprite, otherSprite) {
     music.smallCrash.play()
     sprite.startEffect(effects.fire)
@@ -1254,6 +1257,9 @@ sprites.onOverlap(SpriteKind.HistoryEscape, SpriteKind.HistoryNewPlanet, functio
 sprites.onOverlap(SpriteKind.Projectile, SpriteKind.HistoryEnemy2, function (sprite, otherSprite) {
     music.zapped.play()
     sprite.destroy(effects.disintegrate, 100)
+})
+sprites.onOverlap(SpriteKind.Projectile, SpriteKind.boss, function (sprite, otherSprite) {
+    statusbar.value += -1
 })
 function History () {
     list = [
@@ -1750,7 +1756,6 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.BlackHole, function (sprite, oth
     game.over(false, effects.dissolve)
 })
 let statusbar2: StatusBarSprite = null
-let boss_1: Sprite = null
 let hearts: Sprite = null
 let projectile5: Sprite = null
 let projectile4: Sprite = null
@@ -1768,6 +1773,7 @@ let mySprite3: Sprite = null
 let mySprite2: Sprite = null
 let list: Image[] = []
 let is_earth_attacking = false
+let boss_1: Sprite = null
 let projectile2: Sprite = null
 let statusbar: StatusBarSprite = null
 let has_time_ended = false
@@ -2087,49 +2093,49 @@ forever(function () {
     if (info.score() == 60) {
         sprites.destroyAllSpritesOfKind(SpriteKind.Enemy)
         boss_1 = sprites.create(img`
-            ....8............86968.............8....
-            ...868..........8696968...........868...
-            ..86968cccccccccccccccccccccccccc86968..
-            ..cccccccccccccccccccccccccccccccccccc..
-            cccccccccccccccccccccccccccccccccccccccc
-            .c666666666666666666666666666666666666c.
-            .c999999999999999999999999999999999999c.
-            ..c6666666666666666699666666666666666c..
-            ...c888888888888888699688888888888888c..
-            ...c1515869685d5d58699685d5d58696851c...
-            ....c15869685d5d5d869968d5d5d5869685c...
-            ....c5869685d5d5d88699688d5d5d58696c....
-            .....c69685d5d5d5866996685d5d5d5869c....
-            .....c9685d58888886999968888888d58c.....
-            ......c85d5886666669999666666688d5c.....
-            ......c5d588669999999999999996688c......
-            .......c8886699999999999999999668c......
-            ........c66699999999999999999996c.......
-            ........c69999999999999999999999c.......
-            .........c999999966699669999999c........
-            .........c999999968699686999999c........
-            ..........c9999966869968869999c.........
-            ..........c999966b869968869999c.........
-            ...........c6666b586996886666c..........
-            ...........cbb5b5b8699688888c...........
-            ............c5b5b5869968b5b5c...........
-            .............c5b5b8699685b5c............
-            .............cb5b5869968b5bc............
-            ..............cb5b8699685bc.............
-            ..............c5b5869968b5c.............
-            ...............c5b8699685c..............
-            ...............cb5869968bc..............
-            ................cb869968c...............
-            ...............3cb869968c33.............
-            ...............35c869968c53.............
-            ...............524c6336c425.............
-            ................24c3553c42..............
-            .................24c42c42...............
-            ..................2c24c2................
-            ....................cc..................
+            ...................................c....
+            .................................ccc....
+            ................................c96cc8..
+            ..............................cc696cc68.
+            ............................cc18696cc968
+            ..........................cc5158696cc68.
+            ........................cc968518696cc8..
+            .......................c58696858696ccc..
+            .....................cc8d5869688696ccc..
+            ...................cc6685d586968696ccc..
+            .................cc9996885d58698696ccc..
+            ...............cc9999966885d5868696ccc..
+            ..............cb699999966885d588696ccc..
+            ............cc5b69999999668d5d58696ccc..
+            ..........ccb5b5699999999685d5d8696ccc..
+            ....533.cc5b5b5b66999999968d5d58696ccc..
+            ...225ccb5b5b5b5b66999999685d5d8696ccc8.
+            ..244cbb5b5b5b5b5b66699996888d58696ccc68
+            .24cc888888888888888699996668888696ccc96
+            .cc36666666666666666699999966666696ccc69
+            c2453999999999999999999999999999996ccc96
+            c4253999999999999999999999999999996ccc68
+            .cc36666666666666666699999966666696ccc8.
+            .24cc888888888888888699996668888696ccc..
+            ..244cccb5b5b5b88886999996888d58696ccc..
+            ...2253.cc5b5b58666999999685d5d8696ccc..
+            ....533...ccb5b869999999968d5d58696ccc..
+            ............cc58699999999685d5d8696ccc..
+            ..............cc69999999968d5d58696ccc..
+            ................c99999996685d588696ccc..
+            .................cc99996688d5868696ccc..
+            ...................cc96688d58698696ccc..
+            .....................cc88d586968696ccc..
+            .......................cc5869688696cc8..
+            .........................cc96858696cc68.
+            ...........................cc518696cc968
+            .............................cc8696cc68.
+            ...............................cc96cc8..
+            .................................ccc....
+            ...................................c....
             `, SpriteKind.boss)
-        boss_1.setPosition(75, 26)
-        statusbar2 = statusbars.create(20, 4, StatusBarKind.Health)
+        boss_1.setPosition(129, 59)
+        statusbar2 = statusbars.create(24, 2, StatusBarKind.EnemyHealth)
     }
 })
 forever(function () {
